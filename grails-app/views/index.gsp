@@ -4,9 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A layout example that shows off a responsive email layout.">
-    <title>Email &ndash; Layout Examples &ndash; Pure</title>
-    <link rel="stylesheet" href="/css/pure/pure-min.css">
-    <link rel="stylesheet" href="/layouts/email/styles.css">
+    <title>Wiki Simple</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'styles.css')}">
 </head>
 <body>
 
@@ -14,11 +14,18 @@
     <div id="nav" class="pure-u">
         <a href="#" id="menuLink" class="nav-menu-button">Menu</a>
 
-        <div class="nav-inner">
-            <button class="primary-button pure-button">Compose</button>
-
-            <div class="pure-menu">
+        <div class="pure-menu">
+                <span class="pure-menu-heading">Catégories</span>
                 <ul class="pure-menu-list">
+
+                    <g:each in="${categories}" var="category">
+                            <li class="pure-menu-item">
+                                <a href="${createLink(controller: 'main', action: 'listArticlesByCategory', params: [categoryId: category.id])}" class="pure-menu-link">
+                                    ${category.name}
+                                </a>
+                            </li>
+                    </g:each>
+
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link">Inbox <span class="email-count">(2)</span></a></li>
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link">Important</a></li>
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link">Sent</a></li>
@@ -29,8 +36,9 @@
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-work"></span>Work</a></li>
                     <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-travel"></span>Travel</a></li>
                 </ul>
-            </div>
         </div>
+
+
     </div>
 
     <div id="list" class="pure-u-1">
@@ -143,56 +151,7 @@
         </div>
     </div>
 </div>
-<!-- Script to make the Menu link work -->
-<!-- Just stripped down version of the js/ui.js script for the side-menu layout -->
-<script>
-    function getElements() {
-        return {
-            menu: document.getElementById('nav'),
-            menuLink: document.getElementById('menuLink')
-        };
-    }
 
-    function toggleClass(element, className) {
-        var classes = element.className.split(/\s+/);
-        var length = classes.length;
-        var i = 0;
 
-        for (; i < length; i++) {
-            if (classes[i] === className) {
-                classes.splice(i, 1);
-                break;
-            }
-        }
-        // The className is not found
-        if (length === classes.length) {
-            classes.push(className);
-        }
-
-        element.className = classes.join(' ');
-    }
-
-    function toggleMenu() {
-        var active = 'active';
-        var elements = getElements();
-
-        toggleClass(elements.menu, active);
-    }
-
-    function handleEvent(e) {
-        var elements = getElements();
-
-        if (e.target.id === elements.menuLink.id) {
-            toggleMenu();
-            e.preventDefault();
-        } else if (elements.menu.className.indexOf('active') !== -1) {
-            toggleMenu();
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        document.addEventListener('click', handleEvent);
-    });
-</script>
 </body>
 </html>
