@@ -11,41 +11,36 @@
 <body>
 
 <div id="layout" class="content pure-g">
+    <!-- Sidebar: Navigation -->
+
     <div id="nav" class="pure-u">
         <a href="#" id="menuLink" class="nav-menu-button">Menu</a>
+
+    <a class="primary-button pure-button" href="${createLink(uri: '/')}">List articles</a>
+    <a class="primary-button pure-button" href="${createLink(action:'createArticle', controller:'main')}">write article</a>
+    <hr>
+
 
         <div class="pure-menu">
                 <span class="pure-menu-heading">Catégories</span>
                 <ul class="pure-menu-list">
 
-                    <g:each in="${categories}" var="category">
-                            <li class="pure-menu-item">
-                                <a href="${createLink(controller: 'main', action: 'listArticlesByCategory', params: [categoryId: category.id])}" class="pure-menu-link">
-                                    ${category.name}
-                                </a>
-                            </li>
-                    </g:each>
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Science</a></li>
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Technologie</a></li>
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">history</a></li>
+                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">culture</a></li>
 
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Inbox <span class="email-count">(2)</span></a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Important</a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Sent</a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Drafts</a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link">Trash</a></li>
-                    <li class="pure-menu-heading">Labels</li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-personal"></span>Personal</a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-work"></span>Work</a></li>
-                    <li class="pure-menu-item"><a href="#" class="pure-menu-link"><span class="email-label-travel"></span>Travel</a></li>
                 </ul>
         </div>
-
-
     </div>
+
+
+
+
 
     <div id="list" class="pure-u-1">
         <div class="email-item email-item-selected pure-g">
-            <div class="pure-u">
-                <img width="64" height="64" alt="Tilo Mitra&#x27;s avatar" class="email-avatar" src="/img/common/tilo-avatar.png">
-            </div>
+
 
             <div class="pure-u-3-4">
                 <h5 class="email-name">Tilo Mitra</h5>
@@ -57,9 +52,7 @@
         </div>
 
         <div class="email-item email-item-unread pure-g">
-            <div class="pure-u">
-                <img width="64" height="64" alt="Eric Ferraiuolo&#x27;s avatar" class="email-avatar" src="/img/common/ericf-avatar.png">
-            </div>
+
 
             <div class="pure-u-3-4">
                 <h5 class="email-name">Eric Ferraiuolo</h5>
@@ -71,9 +64,7 @@
         </div>
 
         <div class="email-item pure-g">
-            <div class="pure-u">
-                <img width="64" height="64" alt="Reid Burke&#x27;s avatar" class="email-avatar" src="/img/common/reid-avatar.png">
-            </div>
+
 
             <div class="pure-u-3-4">
                 <h5 class="email-name">Reid Burke</h5>
@@ -85,9 +76,7 @@
         </div>
 
         <div class="email-item pure-g">
-            <div class="pure-u">
-                <img width="64" height="64" alt="Yahoo! Finance&#x27;s Avatar" class="email-avatar" src="/img/common/yfinance-avatar.png">
-            </div>
+
 
             <div class="pure-u-3-4">
                 <h5 class="email-name">Yahoo! Finance</h5>
@@ -99,9 +88,7 @@
         </div>
 
         <div class="email-item pure-g">
-            <div class="pure-u">
-                <img width="64" height="64" alt="Yahoo! News&#x27; avatar" class="email-avatar" src="/img/common/ynews-avatar.png">
-            </div>
+
 
             <div class="pure-u-3-4">
                 <h5 class="email-name">Yahoo! News</h5>

@@ -1,0 +1,118 @@
+
+body {
+    color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+#nav {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 150px;
+    background: rgb(37, 42, 58);
+    overflow: auto;
+    padding: 1.5em 1em;
+    color: white;
+}
+
+#nav .pure-menu {
+    background: transparent;
+    border: none;
+    text-align: left;
+}
+
+#nav .pure-menu-link {
+    color: #fff;
+    margin-left: 0.5em;
+}
+
+#nav .pure-menu-link:hover,
+#nav .pure-menu-link:focus {
+    background: rgb(55, 60, 90);
+}
+
+#nav .pure-menu-heading {
+    border-bottom: none;
+    font-size: 110%;
+    color: rgb(75, 113, 151);
+    text-align: center;
+}
+
+
+#nav .nav-menu-button {
+    display: block;
+    top: 0.5em;
+    right: 0.5em;
+    position: absolute;
+}
+
+
+#nav.active {
+    height: 80%;
+}
+
+#nav .nav-inner {
+    display: block;
+    margin-top: 2em;
+}
+
+
+#layout {
+    margin: 0;
+    padding: 0;
+}
+
+#main {
+    margin-left: 170px;
+    padding: 2em 1.5em;
+    width: calc(100% - 170px);
+    box-sizing: border-box;
+}
+
+h1 {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* Buttons */
+.primary-button,
+.secondary-button {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-radius: 20px;
+}
+
+.primary-button {
+    color: #fff;
+    background: #1b98f8;
+    margin: 1em 0;
+}
+
+.secondary-button {
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #666;
+    padding: 0.5em 2em;
+    font-size: 80%;
+}
+
+
+@media (min-width: 768px) {
+    #nav {
+        width: 150px;
+    }
+    #main {
+        margin-left: 170px;
+        padding: 2em 1.5em;
+    }
+}
+
+@media (min-width: 1200px) {
+    #main {
+        padding: 3em 2em;
+    }
+}
