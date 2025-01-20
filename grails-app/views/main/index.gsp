@@ -52,33 +52,42 @@
 
 
     <div id="list" class="pure-u-1">
-        <g:if test="${articles?.size() == 0}">
-            <div class="email-item pure-g">
-                <div class="pure-u-3-4">
-                    <h4 class="email-subject">Aucun article</h4>
-                </div>
-            </div>
-        </g:if>
-        <g:else>
-            <g:each in="${articles}" var="article" status="i">
-                <div class="email-item pure-g article-item"
-                     data-article-id="${article.id}"
-                     data-categories="${article.categories.collect { it.id }.join(',')}"
-                     style="cursor: pointer;">
-                    <div class="pure-u-3-4">
-                        <h5 class="email-name">
-                            <g:each in="${article.categories}" var="category" status="j">
-                                ${category.name}${j < article.categories.size() - 1 ? ', ' : ''}
-                            </g:each>
-                        </h5>
-                        <h4 class="email-subject">${article.title}</h4>
-                        <p class="email-desc">
-                            ${article.content.body?.take(100)}...
-                        </p>
-                    </div>
-                </div>
-            </g:each>
-        </g:else>
+
+       <g:if test="${articles?.size() == 0}">
+           <div class="email-item pure-g">
+               <div class="pure-u-3-4">
+                   <h4 class="email-subject">Aucun article</h4>
+               </div>
+           </div>
+       </g:if>
+       <g:else>
+           <g:each in="${articles}" var="article">
+               <div class="email-item pure-g article-item"
+                    data-article-id="${article.id}"
+                    data-categories="${article.categories?.collect { it.id }?.join(',') ?: ''}"
+                    style="cursor: pointer;">
+                   <div class="pure-u-3-4">
+                       <h5 class="email-name">
+                           <g:if test="${article.categories}">
+                               <g:each in="${article.categories}" var="category" status="j">
+                                   ${category.name}<g:if test="${j < article.categories.size() - 1}">, </g:if>
+                               </g:each>
+                           </g:if>
+                       </h5>
+                       <h4 class="email-subject">${article.title}</h4>
+                       <p class="email-desc">
+                           ${article.content?.body?.take(100)}...
+                       </p>
+                   </div>
+               </div>
+           </g:each>
+       </g:else>
+
+
+
+
+
+
     </div>
 
     <div id="main" class="pure-u-1">
@@ -91,38 +100,79 @@
 
     <script>
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const articleItems = document.querySelectorAll('.article-item');
-            const articleContent = document.getElementById('article-content');
+      document.addEventListener('DOMContentLoaded', function() {
+          const articleItems = document.querySelectorAll('.article-item');
+          const articleContent = document.getElementById('article-content');
+          const categoryLinks = document.querySelectorAll('.category-link');
+          const listContainer = document.getElementById('list');
 
-            articleItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const articleId = this.getAttribute('data-article-id');
+          function filterArticlesByCategory(categoryId) {
+              let hasVisibleArticles = false;
 
-                    console.log('Fetching article with ID:', articleId);
+              articleItems.forEach(item => {
+                  const categoriesAttr = item.getAttribute('data-categories');
+                  const articleCategories = categoriesAttr ? categoriesAttr.split(',') : [];
 
-                    fetch('${createLink(action: 'viewArticle')}?articleId=' + articleId)
-                        .then(response => {
-                            console.log('Response status:', response.status);
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.text();
-                        })
-                        .then(html => {
-                            console.log('Received HTML:', html);
-                            articleContent.innerHTML = html;
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            articleContent.innerHTML = '<p>Erreur lors du chargement de l\'article</p>';
-                        });
+                  if (articleCategories.includes(categoryId.toString())) {
+                      item.style.display = '';
+                      hasVisibleArticles = true;
+                  } else {
+                      item.style.display = 'none';
+                  }
+              });
 
-                    articleItems.forEach(el => el.classList.remove('email-item-selected'));
-                    this.classList.add('email-item-selected');
-                });
-            });
-        });
+              const noArticlesMessage = document.querySelector('.no-articles-message');
+              if (!hasVisibleArticles) {
+                  if (!noArticlesMessage) {
+                      const messageDiv = document.createElement('div');
+                      messageDiv.className = 'no-articles-message email-item pure-g';
+                      messageDiv.innerHTML = `
+                          <div class="pure-u-3-4">
+                              <h4 class="email-subject">Aucun article dans cette catégorie</h4>
+                          </div>
+                      `;
+                      listContainer.appendChild(messageDiv);
+                  }
+              } else if (noArticlesMessage) {
+                  noArticlesMessage.remove();
+              }
+          }
+
+          categoryLinks.forEach(link => {
+              link.addEventListener('click', function(e) {
+                  e.preventDefault();
+
+                  categoryLinks.forEach(l => l.classList.remove('pure-menu-selected'));
+                  this.classList.add('pure-menu-selected');
+
+                  const categoryId = this.getAttribute('data-category-id');
+                  filterArticlesByCategory(categoryId);
+              });
+          });
+
+          articleItems.forEach(item => {
+              item.addEventListener('click', function() {
+                  const articleId = this.getAttribute('data-article-id');
+
+                  fetch('${createLink(action: 'viewArticle')}?articleId=' + articleId)
+                      .then(response => {
+                          if (!response.ok) throw new Error('Network response was not ok');
+                          return response.text();
+                      })
+                      .then(html => {
+                          articleContent.innerHTML = html;
+                      })
+                      .catch(error => {
+                          articleContent.innerHTML = '<p>Erreur lors du chargement de l\'article</p>';
+                      });
+
+                  articleItems.forEach(el => el.classList.remove('email-item-selected'));
+                  this.classList.add('email-item-selected');
+              });
+          });
+      });
+
+
 
     </script>
 

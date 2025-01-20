@@ -11,12 +11,36 @@ import wikisimple.Image
 class MainController {
 
 
+  //  def index() {
+    //    [
+    //           articles: Article.list(),
+    //           categories: Category.list()
+    //   ]
+   // }
+
+
+
+
     def index() {
+        def articles = Article.where {}.list(fetch: [categories: 'eager'])
         [
-                articles: Article.list(),
+                articles: articles,
                 categories: Category.list()
         ]
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     def viewArticle(Long articleId) {
@@ -47,21 +71,38 @@ class MainController {
     }
 
 
+    @Transactional
     def saveArticle() {
-        Article.withTransaction { status ->
             def article = new Article(title: params.title)
-            def content = new Content(body: params.body, article: article)
 
+            def content = new Content(body: params.body)
+            content.article = article
+            article.content = content
 
-
-            if (article.save(flush: true) && content.save(flush: true)) {
-                flash.success = "Article '${article.title}' créé avec succès"
-                redirect(action: "index")
-            } else {
-                redirect(action: "createArticle")
+            def selectedCategories = params.list('categories')
+            selectedCategories.each { categoryId ->
+                def category = Category.get(categoryId as Long)
+                if (category) {
+                    article.addToCategories(category)
+                }
             }
-        }
+            redirect(action: "index")
+
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
