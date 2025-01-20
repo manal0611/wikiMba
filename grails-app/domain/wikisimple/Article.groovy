@@ -5,7 +5,6 @@ class Article {
     String title
     Content content
     Date dateCreated
-    Date lastUpdated
 
     static hasMany = [categories: Category, images: Image, revisions: Revision]
 
@@ -21,8 +20,6 @@ class Article {
     String toString() {
         return title
     }
-
-
 
 
 }

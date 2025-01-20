@@ -3,71 +3,71 @@ package com.example
 import wikisimple.Article
 import wikisimple.Category
 import wikisimple.Content
-import wikisimple.Image
 import wikisimple.Revision
-
 
 class MainController {
 
+
     def index() {
-       [
-                articles  : Article.list(),
+        [
+                articles: Article.list(),
                 categories: Category.list()
         ]
     }
+
+
+    def viewArticle(Long articleId) {
+        def selectedArticle = Article.get(articleId)
+        render(template: "articleContent", model: [articleSelected: selectedArticle])
+    }
+
+
+
 
     def listArticlesByCategory(Long categoryId) {
         def category = Category.get(categoryId)
         [
-                articles        : category ? category.articles.toList() : [],
-                categories      : Category.list(),
+                articles: category ? category.articles.toList() : [],
+                categories: Category.list(),
                 selectedCategory: category
         ]
     }
 
-    def viewArticle(Long articleId) {
-        def article = Article.get(articleId)
-        if (!article) {
-            flash.message = "Article not found."
-            redirect(action: "index")
-            return
-        }
-        [
-                article   : article,
-                categories: Category.list(),
-                revisions : Revision.findAllByArticle(article),
-                images    : Image.findAllByArticle(article)
-        ]
-    }
+
 
     def createArticle() {
-        [
-                categories: Category.list()
-        ]
+        [categories: Category.list()]
     }
+
+    def createCategory() {
+        def categoryName = params.categoryName?.trim()
+        def category = new Category(name: categoryName)
+        category.save()
+        redirect(action: "index")
+    }
+
 
     def saveArticle() {
-        def content = new Content(body: params.body).save(flush: true)
-        def article = new Article(
-                title: params.title,
-                content: content
-        )
+        Article.withTransaction { status ->
+            def article = new Article(title: params.title)
+            def content = new Content(body: params.body, article: article)
 
-        def categoryIds = params.list('categories')?.collect { it as Long }
-        categoryIds?.each { Long categoryId ->
-            def category = Category.get(categoryId)
-            if (category) {
-                article.addToCategories(category)
+
+
+            if (article.save(flush: true) && content.save(flush: true)) {
+                flash.success = "Article '${article.title}' créé avec succès"
+                redirect(action: "index")
+            } else {
+                redirect(action: "createArticle")
             }
         }
-
-        if (article.save(flush: true)) {
-            redirect(action: "index")
-        } else {
-            flash.message = "Error while editing the article."
-            [categories: Category.list()]
-        }
     }
+
+
+
+
+
+
 
     def editArticle(Long articleId) {
         def article = Article.get(articleId)
@@ -76,9 +76,8 @@ class MainController {
             redirect(action: "index")
             return
         }
-
-         [
-                article   : article,
+        [
+                article: article,
                 categories: Category.list()
         ]
     }
@@ -93,9 +92,9 @@ class MainController {
         }
 
         new Revision(
-                article     : article,
-                oldContent  : article.content,
-                oldTitle    : article.title,
+                article: article,
+                oldContent: article.content,
+                oldTitle: article.title,
                 oldCategorie: article.categories?.first()
         ).save(flush: true)
 
@@ -118,32 +117,13 @@ class MainController {
             [article: article, categories: Category.list()]
         }
     }
-    def deleteArticle(Long articleId) {
-        def article = Article.get(articleId)
-        if (article) {
-            article.delete(flush: true)
-        } else {
-            flash.message = "Article not found."
-        }
-        redirect(action: "index")
-    }
 
-    def createCategory() {
-        if (params.categoryName) {
-            new Category(name: params.categoryName).save(flush: true)
-        }
-        redirect(action: "index")
-    }
 
-    def deleteCategory(Long categoryId) {
-        def category = Category.get(categoryId)
-        if (category) {
-            category.delete(flush: true)
-        } else {
-            flash.message = "Category not found."
-        }
-        redirect(action: "index")
-    }
+
+
+
+
+
 
     def viewRevision(Long id) {
         def revision = Revision.get(id)

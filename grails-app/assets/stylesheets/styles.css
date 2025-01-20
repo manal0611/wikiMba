@@ -272,3 +272,12 @@ a {
         padding: 0;
     }
 }
+
+
+.selected-category {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+

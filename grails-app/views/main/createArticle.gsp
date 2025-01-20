@@ -19,8 +19,6 @@
         </div>
         <div class="nav-inner">
             <a class="primary-button pure-button" href="${createLink(uri: '/')}">Back to Home</a>
-            <a class="primary-button pure-button" href="${createLink(uri: '/')}">View Articles</a>
-
         </div>
     </div>
 
@@ -30,21 +28,28 @@
         <g:form controller="main" action="saveArticle" class="pure-form pure-form-stacked">
             <fieldset>
                 <label for="title">Title</label>
-                <g:textField name="title" id="title" placeholder="Enter the title of the article" required="required" class="pure-input-1"/>
+                <g:textField name="title" id="title" required="true" class="pure-input-1"/>
 
                 <label for="content">Content</label>
-                <g:textArea name="body" id="content" placeholder="Write your article content here..." required="required" rows="10" class="pure-input-1">Sample content to test
-                </g:textArea>
-
+                <g:textArea name="body" id="content" required="true" rows="10" class="pure-input-1"/>
 
                 <label for="categories">Categories</label>
-                <g:select name="categories" from="${categories}" optionKey="id" optionValue="name" multiple="true" class="pure-input-1"/>
+                <g:select name="categories"
+                          from="${categories}"
+                          optionKey="id"
+                          optionValue="name"
+                          multiple="true"
+                          class="pure-input-1"/>
 
-                <button type="submit" class="primary-button pure-button">Save Article</button>
-                <a href="${createLink(action:'index', controller:'main')}" class="secondary-button pure-button">Cancel</a>
+                <g:actionSubmit action="saveArticle" value="Save Article" class="primary-button pure-button"/>
+                <g:link action="index" class="secondary-button pure-button">Cancel</g:link>
             </fieldset>
         </g:form>
     </div>
+
+
+
+
 </div>
 
 </body>
