@@ -10,7 +10,8 @@ class Article {
 
     static constraints = {
         title blank: false, unique: true
-        content blank: false
+        content blank: false, nullable: true
+
     }
     static mapping = {
         content type: 'text'

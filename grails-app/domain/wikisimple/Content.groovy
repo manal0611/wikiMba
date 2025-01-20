@@ -7,6 +7,7 @@ class Content {
 
     static constraints = {
         body blank: false
+        article nullable: true
     }
 
     static mapping = {

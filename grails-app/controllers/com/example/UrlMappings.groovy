@@ -2,7 +2,7 @@ package com.example
 
 class UrlMappings {
     static mappings = {
-        "/$controller/$action?/$id?(.$format)?"{
+        "/$controller/$action?/$id?(.$format)?" {
             constraints {
             }
         }
@@ -12,9 +12,10 @@ class UrlMappings {
             action = "index"
         }
 
+        "/main/deleteArticle/$id"(controller: "main", action: "deleteArticle")
+
+
         "500"(view:'/error')
         "404"(view:'/notFound')
     }
 }
-
-

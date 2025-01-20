@@ -1,9 +1,12 @@
 package com.example
 
+import grails.gorm.transactions.Transactional
 import wikisimple.Article
 import wikisimple.Category
 import wikisimple.Content
 import wikisimple.Revision
+import wikisimple.Image
+
 
 class MainController {
 
@@ -22,8 +25,6 @@ class MainController {
     }
 
 
-
-
     def listArticlesByCategory(Long categoryId) {
         def category = Category.get(categoryId)
         [
@@ -32,7 +33,6 @@ class MainController {
                 selectedCategory: category
         ]
     }
-
 
 
     def createArticle() {
@@ -65,60 +65,29 @@ class MainController {
 
 
 
-
-
-
-
-    def editArticle(Long articleId) {
-        def article = Article.get(articleId)
-        if (!article) {
-            flash.message = "Article not found."
-            redirect(action: "index")
-            return
-        }
+    def editArticle(Long id) {
+        def article = Article.get(id)
         [
                 article: article,
                 categories: Category.list()
         ]
     }
 
+
     def saveEditedArticle() {
-        def articleId = params.long('id')
-        def article = articleId ? Article.get(articleId) : null
-        if (!article) {
-            flash.message = "Article not found."
-            redirect(action: "index")
-            return
-        }
+        Article.withTransaction { status ->
+            def article = Article.get(params.long('id'))
 
-        new Revision(
-                article: article,
-                oldContent: article.content,
-                oldTitle: article.title,
-                oldCategorie: article.categories?.first()
-        ).save(flush: true)
-
-        article.title = params.title
-        article.content.body = params.body
-        article.categories.clear()
-
-        def categoryIds = params.list('categories')?.collect { it as Long }
-        categoryIds?.each { Long categoryId ->
-            def category = Category.get(categoryId)
-            if (category) {
-                article.addToCategories(category)
+            article.properties = params
+            article.content.body = params.body
+            article.categories.clear()
+            params.list('categories')?.each { categoryId ->
+                article.addToCategories(Category.get(categoryId as Long))
             }
-        }
-
-        if (article.save(flush: true)) {
-            redirect(action: "viewArticle", params: [articleId: article.id])
-        } else {
-            flash.message = "Error while editing the article."
-            [article: article, categories: Category.list()]
+            article.save()
+            redirect(action: "index")
         }
     }
-
-
 
 
 
@@ -134,4 +103,40 @@ class MainController {
         }
         [revision: revision, articleId: revision.article.id]
     }
+
+
+
+
+    @Transactional
+    def deleteArticle(Long id) {
+        def article = Article.get(id)
+        if (article) {
+            Revision.where { article == article }.deleteAll()
+            Image.where { article == article }.deleteAll()
+            article.categories?.clear()
+            article.content?.delete()
+            article.delete(flush: true)
+            redirect(action: "index")
+        } else {
+            redirect(action: "index")
+        }
+    }
+
+
+
+
+
+
+
+
+
+
 }
+
+
+
+
+
+
+
+

@@ -5,7 +5,6 @@ class Image {
 
     String url
     String description
-    Date uploadDate
 
     static belongsTo = [article: Article]
 
