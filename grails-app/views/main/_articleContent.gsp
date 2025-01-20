@@ -28,6 +28,7 @@
             <!-- Boutons -->
             <div class="email-content-controls pure-u-1-2">
                 <g:link action="editArticle" id="${articleSelected?.id}" class="secondary-button pure-button">Éditer</g:link>
+                <g:link action="viewRevisions" id="${articleSelected?.id}" class="secondary-button pure-button">Historique</g:link>
                 <g:link action="deleteArticle" id="${articleSelected?.id}" class="secondary-button pure-button"
                         onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</g:link>
             </div>

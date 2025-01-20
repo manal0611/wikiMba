@@ -47,6 +47,34 @@
 
 
 
+
+
+
+           <div class="pure-menu">
+               <hr>
+               <g:if test="${session.user}">
+                   <div class="nav-inner" style="padding: 1em;">
+                       <p style="color: white;">Connecté en tant que <strong style="color: white;">admin</strong></p>
+                       <g:link controller="user" action="logout" class="pure-button pure-button-primary" style="width: 100%;">
+                           Déconnexion
+                       </g:link>
+                   </div>
+               </g:if>
+               <g:else>
+                   <div class="nav-inner">
+                       <g:form controller="user" action="login" class="pure-form pure-form-stacked" style="padding: 1em;">
+                           <input type="text" name="username" placeholder="Nom d'utilisateur" class="pure-input-1"/>
+                           <input type="password" name="password" placeholder="Mot de passe" class="pure-input-1"/>
+                           <button type="submit" class="pure-button pure-button-primary" style="width: 100%;">
+                               Connexion
+                           </button>
+                       </g:form>
+                   </div>
+               </g:else>
+           </div>
+
+
+
         </div>
     </div>
 
