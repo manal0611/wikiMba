@@ -4,7 +4,6 @@ class User {
     String username
     String password
     String email
-    Date dateCreated
 
     static hasMany = [roles: Role, revisions: Revision]
 

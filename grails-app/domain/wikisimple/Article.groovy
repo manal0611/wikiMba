@@ -6,7 +6,7 @@ class Article {
     Date dateCreated
 
     static hasMany = [categories: Category, images: Image, revisions: Revision]
-    // Ajoutez cette ligne pour définir la relation bidirectionnelle
+
     static mappedBy = [categories: 'articles']
 
     static constraints = {
@@ -16,7 +16,6 @@ class Article {
 
     static mapping = {
         content type: 'text'
-        // Ajoutez ceci pour assurer un chargement EAGER des catégories
         categories lazy: false
     }
 
