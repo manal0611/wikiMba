@@ -16,7 +16,6 @@ class Article {
 
     static mapping = {
         content type: 'text'
-        categories lazy: false
     }
 
     @Override

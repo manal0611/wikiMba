@@ -5,43 +5,17 @@ import wikisimple.Article
 import wikisimple.Category
 import wikisimple.Content
 import wikisimple.Revision
-import wikisimple.Image
 
 
 class MainController {
 
 
-  //  def index() {
-    //    [
-    //           articles: Article.list(),
-    //           categories: Category.list()
-    //   ]
-   // }
-
-
-
-
     def index() {
-        def articles = Article.where {}.list(fetch: [categories: 'eager'])
         [
-                articles: articles,
-                categories: Category.list()
-        ]
+               articles: Article.list(),
+               categories: Category.list()
+       ]
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def viewArticle(Long articleId) {
         def selectedArticle = Article.get(articleId)
@@ -81,7 +55,7 @@ class MainController {
         article.save(flush: true)
         content.save(flush: true)
 
-        // Gérer les catégories
+
         params.list('categories')?.each { categoryId ->
             def category = Category.get(categoryId as Long)
             if (category) {
@@ -89,25 +63,8 @@ class MainController {
             }
         }
         article.save(flush: true)
-
         redirect(action: "index")
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     def editArticle(Long id) {
         def article = Article.get(id)
@@ -119,16 +76,9 @@ class MainController {
 
 
 
-
-
-
-
-
     @Transactional
     def saveEditedArticle() {
         def article = Article.get(params.long('id'))
-
-        // Créer une révision
         def revision = new Revision(
                 article: article,
                 oldTitle: article.title,
@@ -136,12 +86,10 @@ class MainController {
                 oldCategorie: article.categories ? article.categories.first() : null
         )
         revision.save(flush: true)
-
-        // Mettre à jour l'article
         article.title = params.title
         article.content.body = params.body
 
-        // Mettre à jour les catégories
+
         article.categories.clear()
         params.list('categories')?.each { categoryId ->
             article.addToCategories(Category.get(categoryId as Long))
@@ -152,24 +100,9 @@ class MainController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     def viewRevisions(Long id) {
         def article = Article.get(id)
         if (!article) {
-            flash.error = "Article non trouvé"
             redirect(action: "index")
             return
         }
@@ -181,19 +114,12 @@ class MainController {
     }
 
 
-
-
-
-
-
     def viewRevision(Long id) {
         def revision = Revision.get(id)
         if (!revision) {
-            flash.error = "Révision non trouvée"
             redirect(action: "index")
             return
         }
-
         [
                 revision: revision,
                 article: revision.article
@@ -201,20 +127,11 @@ class MainController {
     }
 
 
-
-
-
-
-
-
-
-
     @Transactional
     def deleteArticle(Long id) {
         def article = Article.get(id)
         if (article) {
             Revision.where { article == article }.deleteAll()
-            Image.where { article == article }.deleteAll()
             article.categories?.clear()
             article.content?.delete()
             article.delete(flush: true)
@@ -224,21 +141,4 @@ class MainController {
         }
     }
 
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-

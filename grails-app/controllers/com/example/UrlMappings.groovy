@@ -12,8 +12,6 @@ class UrlMappings {
             action = "index"
         }
 
-        "/main/deleteArticle/$id"(controller: "main", action: "deleteArticle")
-
 
         "500"(view:'/error')
         "404"(view:'/notFound')

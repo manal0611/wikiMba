@@ -11,7 +11,7 @@
 <body>
 
 <div id="layout" class="content pure-g">
-    <!-- Sidebar: Navigation -->
+    <!-- Sidebar -->
 
     <div id="nav" class="pure-u">
         <a href="#" id="menuLink" class="nav-menu-button">Menu</a>
@@ -33,7 +33,7 @@
                 </g:form>
             </div>
 
-            <span class="pure-menu-heading">Catégories</span>
+            <span class="pure-menu-heading">Categories</span>
 
             <ul class="pure-menu-list">
                 <g:each in="${categories}" var="category">
@@ -46,27 +46,23 @@
             </ul>
 
 
-
-
-
-
            <div class="pure-menu">
                <hr>
                <g:if test="${session.user}">
                    <div class="nav-inner" style="padding: 1em;">
-                       <p style="color: white;">Connecté en tant que <strong style="color: white;">admin</strong></p>
+                       <p style="color: white;">Logged in as <strong style="color: white;">admin</strong></p>
                        <g:link controller="user" action="logout" class="pure-button pure-button-primary" style="width: 100%;">
-                           Déconnexion
+                           Logout
                        </g:link>
                    </div>
                </g:if>
                <g:else>
                    <div class="nav-inner">
                        <g:form controller="user" action="login" class="pure-form pure-form-stacked" style="padding: 1em;">
-                           <input type="text" name="username" placeholder="Nom d'utilisateur" class="pure-input-1"/>
-                           <input type="password" name="password" placeholder="Mot de passe" class="pure-input-1"/>
+                           <input type="text" name="username" placeholder="username" class="pure-input-1"/>
+                           <input type="password" name="password" placeholder="password" class="pure-input-1"/>
                            <button type="submit" class="pure-button pure-button-primary" style="width: 100%;">
-                               Connexion
+                               Login
                            </button>
                        </g:form>
                    </div>
@@ -78,13 +74,13 @@
         </div>
     </div>
 
-
+    <!-- list des articles -->
     <div id="list" class="pure-u-1">
 
        <g:if test="${articles?.size() == 0}">
            <div class="email-item pure-g">
                <div class="pure-u-3-4">
-                   <h4 class="email-subject">Aucun article</h4>
+                   <h4 class="email-subject">No articles</h4>
                </div>
            </div>
        </g:if>
@@ -110,21 +106,19 @@
                </div>
            </g:each>
        </g:else>
-
-
-
-
-
-
     </div>
+
+
+    <!-- corps vide -->
 
     <div id="main" class="pure-u-1">
         <div id="article-content" class="email-content">
             <div class="email-content-body">
-                <p>Sélectionnez un article pour afficher son contenu</p>
+                <p>Select an article to display its content</p>
             </div>
         </div>
     </div>
+
 
     <script>
 
@@ -156,7 +150,7 @@
                       messageDiv.className = 'no-articles-message email-item pure-g';
                       messageDiv.innerHTML = `
                           <div class="pure-u-3-4">
-                              <h4 class="email-subject">Aucun article dans cette catégorie</h4>
+                              <h4 class="email-subject">No articles in this category</h4>
                           </div>
                       `;
                       listContainer.appendChild(messageDiv);
@@ -191,7 +185,7 @@
                           articleContent.innerHTML = html;
                       })
                       .catch(error => {
-                          articleContent.innerHTML = '<p>Erreur lors du chargement de l\'article</p>';
+                          articleContent.innerHTML = '<p>Error loading the article</p>';
                       });
 
                   articleItems.forEach(el => el.classList.remove('email-item-selected'));
@@ -199,13 +193,7 @@
               });
           });
       });
-
-
-
     </script>
-
 </div>
-
-
 </body>
 </html>

@@ -12,7 +12,8 @@
 <body>
 
 <div id="layout" class="content pure-g">
-    <!-- Sidebar: Navigation -->
+
+    <!-- Sidebar -->
     <div id="nav" class="pure-u-1-4">
         <div class="logo-wiki">
             <h1 class="title-wiki">My Wiki</h1>
@@ -23,6 +24,7 @@
     </div>
 
 
+    <!-- corps -->
     <div id="main" class="pure-u-3-4">
         <h1>Create a New Article</h1>
         <g:form controller="main" action="saveArticle" class="pure-form pure-form-stacked">
@@ -42,7 +44,7 @@
                           class="pure-input-1"/>
 
                 <g:actionSubmit action="saveArticle" value="Save Article" class="primary-button pure-button"/>
-                <g:link action="index" class="secondary-button pure-button">Cancel</g:link>
+                <g:link action="index" class="primary-button pure-button">Cancel</g:link>
             </fieldset>
         </g:form>
     </div>

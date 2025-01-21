@@ -1,7 +1,8 @@
 <div id="main" class="pure-u-1">
     <div class="email-content">
         <div class="email-content-header pure-g">
-            <!-- Catégories en premier -->
+
+            <!-- Catégories -->
             <div class="pure-u-1">
                 <g:if test="${articleSelected?.categories}">
                     <div class="email-content-categories">
@@ -21,16 +22,16 @@
             <div class="pure-u-1-2">
                 <h1 class="email-content-title">${articleSelected?.title}</h1>
                 <p class="email-content-subtitle">
-                    Créé le <span><g:formatDate date="${articleSelected?.dateCreated}" format="dd/MM/yyyy HH:mm"/></span>
+                    Created on <span><g:formatDate date="${articleSelected?.dateCreated}" format="dd/MM/yyyy HH:mm"/></span>
                 </p>
             </div>
 
             <!-- Boutons -->
             <div class="email-content-controls pure-u-1-2">
-                <g:link action="editArticle" id="${articleSelected?.id}" class="secondary-button pure-button">Éditer</g:link>
-                <g:link action="viewRevisions" id="${articleSelected?.id}" class="secondary-button pure-button">Historique</g:link>
+                <g:link action="editArticle" id="${articleSelected?.id}" class="secondary-button pure-button">edit</g:link>
+                <g:link action="viewRevisions" id="${articleSelected?.id}" class="secondary-button pure-button">History</g:link>
                 <g:link action="deleteArticle" id="${articleSelected?.id}" class="secondary-button pure-button"
-                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?')">Supprimer</g:link>
+                        onclick="return confirm('Are you sure you want to delete this article? ?')">delete</g:link>
             </div>
         </div>
 
@@ -41,9 +42,6 @@
                     <p>${paragraph}</p>
                 </g:each>
             </g:if>
-            <g:else>
-                <p>Cet article n'a pas de contenu.</p>
-            </g:else>
         </div>
     </div>
 </div>
