@@ -12,6 +12,19 @@
 <body>
 
 <div id="layout" class="content pure-g">
+
+<!-- Messages conteneur -->
+    <g:if test="${flash.error}">
+        <div class="flash-message error" style="display: none;">
+            ${flash.error}
+        </div>
+    </g:if>
+    <g:if test="${flash.message}">
+        <div class="flash-message success" style="display: none;">
+            ${flash.message}
+        </div>
+    </g:if>
+
     <!-- Sidebar -->
 
     <div id="nav" class="pure-u">
@@ -35,13 +48,20 @@
             </div>
 
             <span class="pure-menu-heading">Categories</span>
-
             <ul class="pure-menu-list">
                 <g:each in="${categories}" var="category">
                     <li class="pure-menu-item">
                         <a href="#" class="pure-menu-link category-link" data-category-id="${category.id}">
                             ${category.name}
                         </a>
+                        <g:form controller="main"
+                                action="deleteCategory"
+                                method="POST"
+                                class="category-delete-form"
+                                onclick="return confirm('Are you sure you want to delete the category \'${category.name}\'?');">
+                            <g:hiddenField name="id" value="${category.id}"/>
+                            <button type="submit" class="category-delete-button">×</button>
+                        </g:form>
                     </li>
                 </g:each>
             </ul>
@@ -127,6 +147,15 @@
         const viewArticleUrl = '${createLink(action: 'viewArticle')}';
         document.addEventListener('DOMContentLoaded', function() {
             initializeArticleFilters();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.flash-message').forEach(function(message) {
+                message.style.display = 'block';
+                setTimeout(function() {
+                    message.remove();
+                }, 4000);
+            });
         });
     </script>
 

@@ -4,15 +4,15 @@
  */
 body {
     color: #333;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
-
-
 
 a {
     text-decoration: none;
     color: #1b98f8;
 }
-
 
 /*
  * -- HELPER STYLES --
@@ -25,11 +25,13 @@ a {
     box-shadow: none;
     border-radius: 20px;
 }
+
 .primary-button {
     color: #fff;
     background: #1b98f8;
     margin: 1em 0;
 }
+
 .secondary-button {
     background: #fff;
     border: 1px solid #ddd;
@@ -40,14 +42,13 @@ a {
 
 /*
  * -- LAYOUT STYLES --
- * This layout consists of three main elements, `#nav` (navigation bar), `#list` (email list), and `#main` (email content). All 3 elements are within `#layout`
  */
 #layout, #nav, #list, #main {
     margin: 0;
     padding: 0;
 }
 
-/* Make the navigation 100% width on phones */
+/* Navigation Styles */
 #nav {
     width: 100%;
     height: 40px;
@@ -55,7 +56,7 @@ a {
     background: rgb(37, 42, 58);
     text-align: center;
 }
-/* Show the "Menu" button on phones */
+
 #nav .nav-menu-button {
     display: block;
     top: 0.5em;
@@ -63,50 +64,45 @@ a {
     position: absolute;
 }
 
-/* When "Menu" is clicked, the navbar should be 80% height */
 #nav.active {
     height: 80%;
 }
-/* Don't show the navigation items... */
+
 .nav-inner {
     display: none;
 }
 
-/* ...until the "Menu" button is clicked */
 #nav.active .nav-inner {
     display: block;
     padding: 2em 0;
 }
 
-
 /*
  * -- NAV BAR STYLES --
- * Styling the default .pure-menu to look a little more unique.
  */
 #nav .pure-menu {
     background: transparent;
     border: none;
     text-align: left;
 }
+
 #nav .pure-menu-link:hover,
 #nav .pure-menu-link:focus {
     background: rgb(55, 60, 90);
 }
+
 #nav .pure-menu-link {
     color: #fff;
     margin-left: 0.5em;
 }
+
 #nav .pure-menu-heading {
     border-bottom: none;
-    font-size:110%;
+    font-size: 110%;
     color: rgb(75, 113, 151);
 }
 
-
-/*
- * -- EMAIL STYLES --
- * Styles relevant to the email messages, labels, counts, and more.
- */
+/* Email Styles */
 .email-count {
     color: rgb(75, 113, 151);
 }
@@ -120,16 +116,18 @@ a {
     margin-right: 0.5em;
     border-radius: 3px;
 }
+
 .email-label-personal {
     background: #ffc94c;
 }
+
 .email-label-work {
     background: #41ccb4;
 }
+
 .email-label-travel {
     background: #40c365;
 }
-
 
 /* Email Item Styles */
 .email-item {
@@ -137,18 +135,24 @@ a {
     border-bottom: 1px solid #ddd;
     border-left: 6px solid transparent;
 }
+
 .email-avatar {
     border-radius: 3px;
     margin-right: 0.5em;
+    width: 40px;
+    height: 40px;
 }
+
 .email-name,
 .email-subject {
     margin: 0;
 }
+
 .email-name {
     text-transform: uppercase;
     color: #999;
 }
+
 .email-desc {
     font-size: 80%;
     margin: 0.4em 0;
@@ -157,14 +161,18 @@ a {
 .email-item-selected {
     background: #eee;
 }
+
 .email-item-unread {
     border-left: 6px solid #1b98f8;
 }
 
 /* Email Content Styles */
-.email-content-header, .email-content-body, .email-content-footer {
+.email-content-header,
+.email-content-body,
+.email-content-footer {
     padding: 1em 2em;
 }
+
 .email-content-header {
     border-bottom: 1px solid #ddd;
 }
@@ -172,65 +180,96 @@ a {
 .email-content-title {
     margin: 0.5em 0 0;
 }
+
 .email-content-subtitle {
     font-size: 1em;
     margin: 0;
     font-weight: normal;
 }
+
 .email-content-subtitle span {
     color: #999;
 }
+
 .email-content-controls {
     margin-top: 2em;
     text-align: right;
 }
+
 .email-content-controls .secondary-button {
     margin-bottom: 0.3em;
 }
 
-.email-avatar {
-    width: 40px;
-    height: 40px;
+/* Category Styles */
+.pure-menu-item {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 0.5em;
 }
 
+.category-delete-button {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    line-height: 24px;
+    text-align: center;
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 16px;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+}
 
-/*
- * -- TABLET (AND UP) MEDIA QUERIES --
- * On tablets and other medium-sized devices, we want to customize some
- * of the mobile styles.
- */
+.category-delete-button:hover {
+    opacity: 1;
+    background: rgba(255, 107, 107, 0.2);
+    border-color: rgba(255, 107, 107, 0.4);
+    color: #ff6b6b;
+}
+
+.category-delete-form {
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+}
+
+.selected-category {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Responsive Styles */
 @media (min-width: 40em) {
-
-    /* Move the layout over so we can fit the nav + list in on the left */
     #layout {
-        padding-left:500px; /* "left col (nav + list)" width */
+        padding-left: 500px;
         position: relative;
     }
 
-    /* These are position:fixed; elements that will be in the left 500px of the screen */
     #nav, #list {
         position: fixed;
         top: 0;
         bottom: 0;
         overflow: auto;
     }
+
     #nav {
-        margin-left:-500px; /* "left col (nav + list)" width */
-        width:150px;
+        margin-left: -500px;
+        width: 150px;
         height: 100%;
     }
 
-
-
-
-
-    /* Show the menu items on the larger screen */
     .nav-inner {
         display: block;
         padding: 2em 0;
     }
 
-    /* Hide the "Menu" button on larger screens */
     #nav .nav-menu-button {
         display: none;
     }
@@ -249,27 +288,18 @@ a {
         bottom: 0;
         left: 150px;
         overflow: auto;
-        width: auto; /* so that it's not 100% */
+        width: auto;
     }
-
 }
 
-/*
- * -- DESKTOP (AND UP) MEDIA QUERIES --
- * On desktops and other large-sized devices, we want to customize some
- * of the mobile styles.
- */
 @media (min-width: 60em) {
-
-    /* This will take up the entire height, and be a little thinner */
     #list {
         margin-left: -350px;
-        width:350px;
+        width: 350px;
         height: 100%;
         border-right: 1px solid #ddd;
     }
 
-    /* This will now take up it's own column, so don't need position: fixed; */
     #main {
         position: static;
         margin: 0;
@@ -278,10 +308,47 @@ a {
 }
 
 
-.selected-category {
-    font-weight: bold;
-    text-decoration: underline;
+
+/* Message Styles */
+.flash-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    border-radius: 4px;
+    z-index: 1000;
+    animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-out 3.5s forwards;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
+.flash-message.error {
+    background: #ff6b6b;
+    color: white;
+    border-left: 4px solid #ff4444;
+}
 
+.flash-message.success {
+    background: #51cf66;
+    color: white;
+    border-left: 4px solid #40c057;
+}
 
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

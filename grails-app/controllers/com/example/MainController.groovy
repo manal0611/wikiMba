@@ -141,4 +141,23 @@ class MainController {
         }
     }
 
+
+    @Transactional
+    def deleteCategory(Long id) {
+        def category = Category.get(id)
+        if (category) {
+            if (category.articles.size() > 0) {
+                flash.error = "Cannot delete category '${category.name}' because it contains articles"
+                redirect(action: "index")
+                return
+            }
+            try {
+                category.delete(flush: true)
+                flash.message = "Category '${category.name}' successfully deleted"
+            } catch (Exception e) {
+                flash.error = "An error occurred while deleting the category"
+            }
+        }
+        redirect(action: "index")
+    }
 }
