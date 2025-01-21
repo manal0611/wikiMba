@@ -4,13 +4,13 @@ package wikisimple
 class Image {
 
     String url
-    String description
+    String name
 
     static belongsTo = [article: Article]
 
     static constraints = {
         url blank: false
-        description nullable: true
+        name nullable: true
     }
 
     static mapping = {
